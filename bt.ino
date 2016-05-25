@@ -13,13 +13,5 @@ void bt_setup()
 
 void bt_loop()
 {
-	while(myBTSerial.available()) {
-		control_action(myBTSerial.read());
-	}
-
-/*
-  while(Serial.available()) {
-    myBTSerial.write(Serial.read());
-  }
-  */
+  control_action(myBTSerial);
 }

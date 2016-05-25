@@ -9,7 +9,6 @@ void setup()
 
   servos_setup();
 
-
 	bt_setup();
 }
 
@@ -42,7 +41,5 @@ void loop()
 
 	bt_loop();
 
-	while(Serial.available()) {
-		control_action(Serial.read());
-	}
+  control_action(Serial);
 } 

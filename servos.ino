@@ -1,7 +1,5 @@
 #include <Servo.h>
 
-
-
 Servo my_servos[NR_SERVOS];
 
 struct servo_pos_t {
@@ -16,6 +14,9 @@ struct servo_pos_t servo_pos[NR_SERVOS];
 #define MAX_POS 160
 #define MIN_POS 20
 #define END_POS 93
+
+#define SERVOS_LOOP_INTERVAL 30
+unsigned long servos_last_access = 0;
 
 
 void servos_setup()
@@ -53,6 +54,12 @@ void servos_setup()
 
 void servos_loop()
 {
+  if((unsigned long)(millis() - servos_last_access) < SERVOS_LOOP_INTERVAL)
+  {
+    return;
+  }
+  servos_last_access = millis();
+  
   for(int i=0; i<NR_SERVOS; ++i) {
     if(servo_pos[i].now != servo_pos[i].wanted) {
       Serial.print(i);
@@ -66,6 +73,23 @@ void servos_loop()
       servo_set_to(i, pos);
     }
   }
+}
+
+void servos_status(Stream& io)
+{
+  for(int i=0; i<NR_SERVOS; ++i) {
+    io.print(i);
+    io.print("=");
+    io.print(servo_pos[i].min);
+    io.print(",");
+    io.print(servo_pos[i].max);
+    io.print(",");
+    io.print(servo_pos[i].now);
+    io.print(",");
+    io.print(servo_pos[i].wanted);
+    io.print(" ");
+  }
+  io.println();
 }
 
 
@@ -120,31 +144,22 @@ void servo_set_to(int id, int pos)
 
 void servo_left(int id)
 {
-  int cur_pos = my_servos[id].read() - 1;
-  DEBUG_SERVO_POS(id, -1, cur_pos);
-  if(cur_pos < MIN_POS) {
-    return;
-  }
-
-  my_servos[id].write(cur_pos);
-  if(id == S_2FACE) {
-    my_servos[S_2FACE2].write(cur_pos);
+  int new_pos = my_servos[id].read() - 1;
+  DEBUG_SERVO_POS(id, -1, new_pos);
+  if(new_pos > servo_pos[id].min) {
+    servo_pos[id].wanted = new_pos;
   }
 }
 
 
 void servo_right(int id)
 {
-  int cur_pos = my_servos[id].read() + 1;
-  DEBUG_SERVO_POS(id, -1, cur_pos);
-  if(cur_pos > MAX_POS) {
-    return;
+  int new_pos = my_servos[id].read() + 1;
+  DEBUG_SERVO_POS(id, -1, new_pos);
+  if(new_pos < servo_pos[id].max) {
+    servo_pos[id].wanted = new_pos;
   }
 
-  my_servos[id].write(cur_pos);
-  if(id == S_2FACE) {
-    my_servos[S_2FACE2].write(cur_pos);
-  }
 }
 
 
