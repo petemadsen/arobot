@@ -4,9 +4,6 @@
 #define CMD_EXIT	'x'
 #define CMD_HELP '?'
 
-#define CMD_BASE_LEFT	'b'
-#define CMD_BASE_RIGHT	'B'
-
 // qwertzu?
 #define CMD_SERVO_BODY_LEFT	'q'
 #define CMD_SERVO_BODY_RIGHT	'Q'
@@ -31,13 +28,6 @@ void control_action(Stream& io)
   
 	switch(ch)
 	{
-	case CMD_BASE_LEFT:
-		servo_left(S_BASE);
-		break;
-	case CMD_BASE_RIGHT:
-		servo_right(S_BASE);
-		break;
-
 	case CMD_SERVO_CLAW_CLOSE:
 		servo_to_min(S_CLAW);
 		io.println("OK");
