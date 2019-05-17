@@ -21,11 +21,19 @@ unsigned long servos_last_access = 0;
 
 void servos_setup()
 {
+  for (int i=0; i<NR_SERVOS; ++i)
+  {
+    servo_pos[i].min = MIN_POS;
+    servo_pos[i].max = MAX_POS;
+    servo_pos[i].now = END_POS;
+    servo_pos[i].wanted = END_POS;
+  }
+  
   my_servos[S_BASE].attach(SERVO_PIN_BASE);
   my_servos[S_2FACE].attach(SERVO_PIN_2FACE);
   my_servos[S_2FACE2].attach(SERVO_PIN_2FACE2);
   my_servos[S_CLAW].attach(SERVO_PIN_CLAW);
-  my_servos[S_NECK].attach(SERVO_PIN_NECK);
+  my_servos[S_NECK_LR].attach(SERVO_PIN_NECK);
   my_servos[S_NECK_2].attach(SERVO_PIN_NECK_2);
 
   servo_pos[S_BASE].min = 40;
@@ -37,31 +45,26 @@ void servos_setup()
   servo_pos[S_CLAW].min = 60;
   servo_pos[S_CLAW].max = 170;
 
-  servo_pos[S_NECK].min = 40;
-  servo_pos[S_NECK].max = 140;
+  servo_pos[S_NECK_LR].min = 40;
+  servo_pos[S_NECK_LR].max = 140;
 
   servo_pos[S_NECK_2].min = 40;
   servo_pos[S_NECK_2].max = 140;
-
-  for(int i=0; i<NR_SERVOS; ++i) {
-    servo_pos[i].min = MIN_POS;
-    servo_pos[i].max = MAX_POS;
-    servo_pos[i].now = END_POS;
-    servo_pos[i].wanted = END_POS;
-  }
 }
 
 
 void servos_loop()
 {
-  if((unsigned long)(millis() - servos_last_access) < SERVOS_LOOP_INTERVAL)
+  if ((unsigned long)(millis() - servos_last_access) < SERVOS_LOOP_INTERVAL)
   {
     return;
   }
   servos_last_access = millis();
   
-  for(int i=0; i<NR_SERVOS; ++i) {
-    if(servo_pos[i].now != servo_pos[i].wanted) {
+  for (int i=0; i<NR_SERVOS; ++i)
+  {
+    if (servo_pos[i].now != servo_pos[i].wanted)
+    {
       Serial.print(i);
       Serial.print(" - moving from ");
       Serial.print(servo_pos[i].now);
@@ -133,7 +136,8 @@ void servo_set_to(int id, int pos)
     return;
   }
 
-  if(id == S_2FACE) {
+  if(id == S_2FACE)
+  {
     servo_pos[S_2FACE2].now = pos;
     my_servos[S_2FACE2].write(pos);
   }
@@ -144,20 +148,37 @@ void servo_set_to(int id, int pos)
 
 void servo_left(int id)
 {
-  int new_pos = my_servos[id].read() - 1;
+  if (id==S_2FACE2) {
+    return;
+  }
+  
+  int new_pos = servo_pos[id].now - 1;
+  new_pos = servo_pos[id].wanted - 1;
   DEBUG_SERVO_POS(id, -1, new_pos);
-  if(new_pos > servo_pos[id].min) {
+  if (new_pos > servo_pos[id].min)
+  {
     servo_pos[id].wanted = new_pos;
+    if (id==S_2FACE) {
+      servo_pos[S_2FACE2].wanted = new_pos;
+    }
   }
 }
 
 
 void servo_right(int id)
 {
-  int new_pos = my_servos[id].read() + 1;
+  if (id==S_2FACE2) {
+    return;
+  }
+  
+  int new_pos = servo_pos[id].now + 1;
+  new_pos = servo_pos[id].wanted + 1;
   DEBUG_SERVO_POS(id, -1, new_pos);
-  if(new_pos < servo_pos[id].max) {
+  if (new_pos < servo_pos[id].max) {
     servo_pos[id].wanted = new_pos;
+    if (id==S_2FACE) {
+      servo_pos[S_2FACE2].wanted = new_pos;
+    }
   }
 
 }

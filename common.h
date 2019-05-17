@@ -9,6 +9,8 @@
 #define SERVO_PIN_2FACE2	3
 #define SERVO_PIN_BASE		2
 
+#define EMAGNET_PIN 11
+
 
 #define DEBUG_SERVO_POS(x,y,z) Serial.print("S_TO["); Serial.print(x); Serial.print("]: "); Serial.print(y); Serial.print(" to "); Serial.println(z);
 
@@ -23,7 +25,7 @@
 #define S_2FACE   1
 #define S_2FACE2  2
 #define S_CLAW    3
-#define S_NECK    4
+#define S_NECK_LR    4
 #define S_NECK_2  5
 
 

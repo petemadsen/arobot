@@ -10,6 +10,11 @@ void setup()
   servos_setup();
 
 	bt_setup();
+
+  pinMode(EMAGNET_PIN, OUTPUT);
+  digitalWrite(EMAGNET_PIN, LOW);
+
+  Serial.println("Ready");
 }
 
 
