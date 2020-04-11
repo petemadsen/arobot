@@ -2,16 +2,30 @@
 #include "common.h"
 
 
-SoftwareSerial myBTSerial(BT_PIN_TX, BT_PIN_RX);
+static SoftwareSerial my_bt_serial(BT_PIN_TX, BT_PIN_RX);
 
 
 void bt_setup()
 {
-	myBTSerial.begin(BT_BAUD);
+	my_bt_serial.begin(BT_BAUD);
 }
 
 
 void bt_loop()
 {
-  control_action(myBTSerial);
+  if (control_test_bt())
+    my_bt_serial.println("[bping]");
+  
+#if 1
+  if (my_bt_serial.available())
+    Serial.println("[bt]");
+  control_action(my_bt_serial);
+#else
+  while (myBTSerial.available())
+  {
+    int ch = myBTSerial.read();
+    Serial.print("--bt: ");
+    Serial.println(ch);
+  }
+#endif
 }

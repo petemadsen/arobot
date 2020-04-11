@@ -90,9 +90,8 @@ void servos_status(Stream& io)
     io.print(servo_pos[i].now);
     io.print(",");
     io.print(servo_pos[i].wanted);
-    io.print(" ");
+    io.println();
   }
-  io.println();
 }
 
 
@@ -182,5 +181,3 @@ void servo_right(int id)
   }
 
 }
-
-
