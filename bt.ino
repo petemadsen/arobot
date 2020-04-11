@@ -21,9 +21,9 @@ void bt_loop()
     Serial.println("[bt]");
   control_action(my_bt_serial);
 #else
-  while (myBTSerial.available())
+  while (my_bt_serial.available())
   {
-    int ch = myBTSerial.read();
+    int ch = my_bt_serial.read();
     Serial.print("--bt: ");
     Serial.println(ch);
   }

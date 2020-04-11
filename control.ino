@@ -108,14 +108,14 @@ static void control_run_command(char ch, Stream& io)
 		system_stop();
 		break;
   case CMD_STATUS:
-    servos_status(io);
+    print_status(io);
     break;
   case CMD_HELP:
 	  io.println(HELP_REPLY_0);
 	  io.println(HELP_REPLY_1);
 	  io.println(HELP_REPLY_2);
     io.println(":)");
-    servos_status(io);
+    print_status(io);
     break;
 
   case CMD_BT_PING:
@@ -132,6 +132,15 @@ static void control_run_command(char ch, Stream& io)
 		Serial.println();
 	}
 }
+
+
+void print_status(Stream& io)
+{
+  servos_status(io);
+  io.print("magnet ");
+  io.println(digitalRead(EMAGNET_PIN));
+}
+
 
 bool control_test_bt()
 {
