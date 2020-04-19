@@ -29,4 +29,8 @@
 #define S_NECK_2  5
 
 
+
+#define I2C_ADDR 8
+
+
 #endif

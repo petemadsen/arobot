@@ -7,14 +7,16 @@ void setup()
 { 
 	Serial.begin(9600);
 
-  servos_setup();
+	servos_setup();
 
 	bt_setup();
 
-  pinMode(EMAGNET_PIN, OUTPUT);
-  digitalWrite(EMAGNET_PIN, LOW);
+	i2c_setup();
 
-  Serial.println("Ready");
+	pinMode(EMAGNET_PIN, OUTPUT);
+	digitalWrite(EMAGNET_PIN, LOW);
+
+	Serial.println("Ready");
 }
 
 
@@ -42,9 +44,11 @@ void loop()
 	}
 */
 
-  servos_loop();
+	servos_loop();
 
-	bt_loop();
+//	bt_loop();
 
-  control_action(Serial);
+	i2c_loop();
+
+	control_action(Serial);
 } 
