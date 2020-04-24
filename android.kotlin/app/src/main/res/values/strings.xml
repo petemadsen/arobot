@@ -1,0 +1,45 @@
+<resources>
+    <string name="app_name">Shutters</string>
+    <string name="tab_windows">Windows</string>
+    <string name="tab_phone">Phone</string>
+    <string name="tab_status">Status</string>
+    <string name="btn_open">Open</string>
+    <string name="btn_close">Close</string>
+    <string name="btn_stop">Stop</string>
+    <string name="lbl_address">Address</string>
+    <string name="connected">Connected</string>
+    <string name="no_connection">No Connection</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="settings">Settings</string>
+    <string name="pls_select">Select...</string>
+    <string name="save">Save</string>
+    <string name="saved">Saved</string>
+    <string name="err_saved">Error while saving!</string>
+    <string name="shutters_address">Shutters URL</string>
+    <string name="xmas_address">Xmas URL</string>
+    <string name="connect">Connect</string>
+    <string name="sent">Sent</string>
+    <string name="number">Number</string>
+    <string name="name">Name</string>
+    <string name="cancel">Cancel</string>
+    <string name="ask_delete">Delete?</string>
+    <string name="deleted">Deleted</string>
+    <string name="all_windows">All windows</string>
+    <string name="select_window">Select window</string>
+    <string name="window">Window</string>
+    <string name="tab_xmas">Xmas</string>
+    <string-array name="windows_array_obsolete">
+        <item>All</item>
+        <item>Stairs</item>
+        <item>WC</item>
+        <item>Kitchen</item>
+        <item>Dining room</item>
+        <item>Terrace</item>
+        <item>Living room 1</item>
+        <item>Living room 2</item>
+        <item>Living room 3</item>
+        <item>Bedroom</item>
+        <item>Bath room</item>
+    </string-array>
+</resources>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+    <EditTextPreference
+        app:dialogTitle="@string/lbl_address"
+        app:key="shutters_address"
+        app:title="@string/shutters_address" />
+    <EditTextPreference
+        app:dialogTitle="@string/lbl_address"
+        app:key="xmas_address"
+        app:title="@string/xmas_address" />
+    <!--
+    <SwitchPreference
+        app:key="show_average"
+        app:title="Show average length of work day"
+        app:defaultValue="false"
+        app:summary="Display the calculated average in the app title" />
+        -->
+</PreferenceScreen>
