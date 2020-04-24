@@ -2,6 +2,12 @@
     <string name="app_name">aRobot</string>
     <string name="tab_windows">Fenster</string>
     <string name="tab_status">Status</string>
+    <string name="btn_left">Links</string>
+    <string name="btn_right">Rechts</string>
+    <string name="btn_up">Hoch</string>
+    <string name="btn_down">Runter</string>
+    <string name="btn_on">An</string>
+    <string name="btn_off">Aus</string>
     <string name="btn_open">Öffnen</string>
     <string name="btn_close">Schließen</string>
     <string name="btn_stop">Anhalten</string>
@@ -16,28 +22,9 @@
     <string name="saved">Gespeichert</string>
     <string name="err_saved">Fehler bei Speichern!</string>
     <string name="shutters_address">Shutters URL</string>
-    <string name="xmas_address">Xmas URL</string>
     <string name="connect">Verbinden</string>
     <string name="sent">Gesendet</string>
-    <string name="number">Nummer</string>
-    <string name="name">Name</string>
     <string name="cancel">Abbrechen</string>
     <string name="ask_delete">Löschen?</string>
     <string name="deleted">Gelöscht</string>
-    <string name="all_windows">Alle Fenster</string>
-    <string name="select_window">Fenster wählen</string>
-    <string name="window">Fenster</string>
-    <string-array name="windows_array_obsolete">
-        <item>Alle</item>
-        <item>Treppe</item>
-        <item>WC</item>
-        <item>Küche</item>
-        <item>Esszimmer</item>
-        <item>Terrasse</item>
-        <item>Wohnzimmer 1</item>
-        <item>Wohnzimmer 2</item>
-        <item>Wohnzimmer 3</item>
-        <item>Schlafzimmer</item>
-        <item>Bad</item>
-    </string-array>
 </resources>

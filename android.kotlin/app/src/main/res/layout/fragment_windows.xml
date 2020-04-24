@@ -31,73 +31,66 @@
             android:padding="10dp"
             android:text="-" />
 
-        <LinearLayout
+        <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:padding="5dp"
-            android:orientation="horizontal">
+            android:columnCount="2">
 
-            <LinearLayout
-                android:layout_height="match_parent"
-                android:layout_width="164dp"
-                android:orientation="vertical">
+            <Button
+                android:id="@+id/btn_left"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill_horizontal"
+                android:layout_columnWeight="1"
+                android:enabled="false"
+                android:text="@string/btn_left" />
 
-                <ToggleButton
-                    android:id="@+id/btnAll"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:enabled="false"
-                    android:textOff="@string/all_windows"
-                    android:textOn="@string/all_windows" />
+            <Button
+                android:id="@+id/btn_right"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill_horizontal"
+                android:layout_columnWeight="1"
+                android:enabled="false"
+                android:text="@string/btn_right" />
 
-                <Button
-                    android:id="@+id/btnWindow"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:enabled="false"
-                    android:text="@string/pls_select" />
+            <Button
+                android:id="@+id/btn_up"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill_horizontal"
+                android:enabled="false"
+                android:text="@string/btn_up" />
+            <Button
+                android:id="@+id/btn_down"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill_horizontal"
+                android:enabled="false"
+                android:text="@string/btn_down" />
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <Button
-                    android:id="@+id/btn_open"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:enabled="false"
-                    android:text="@string/btn_open" />
-
-                <Button
-                    android:id="@+id/btn_stop"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:enabled="false"
-                    android:text="@string/btn_stop" />
-
-                <Button
-                    android:id="@+id/btn_close"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:enabled="false"
-                    android:text="@string/btn_close" />
-            </LinearLayout>
-        </LinearLayout>
+            <Button
+                android:id="@+id/btn_on"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill_horizontal"
+                android:enabled="false"
+                android:text="@string/btn_on" />
+            <Button
+                android:id="@+id/btn_off"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill_horizontal"
+                android:enabled="false"
+                android:text="@string/btn_off" />
+        </GridLayout>
 
         <TextView
             android:id="@+id/lblSelection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="@string/select_window"
+            android:text=""
             android:textStyle="bold" />
 
         <TextView

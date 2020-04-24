@@ -1,10 +1,7 @@
 package de.wiebe.arobot
 
-import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -18,12 +15,9 @@ import de.wiebe.arobot.ui.main.PageViewModel
 import de.wiebe.arobot.ui.main.SectionsPagerAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
+
 class MainActivity : AppCompatActivity() {
     private lateinit var pageViewModel: PageViewModel
-
-    companion object {
-        const val PERMISSIONS_REQUEST_READ_CONTACTS = 100
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

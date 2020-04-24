@@ -2,6 +2,12 @@
     <string name="app_name">aRobot</string>
     <string name="tab_windows">Windows</string>
     <string name="tab_status">Status</string>
+    <string name="btn_left">Left</string>
+    <string name="btn_right">Right</string>
+    <string name="btn_up">Up</string>
+    <string name="btn_down">Down</string>
+    <string name="btn_on">On</string>
+    <string name="btn_off">Off</string>
     <string name="btn_open">Open</string>
     <string name="btn_close">Close</string>
     <string name="btn_stop">Stop</string>
@@ -16,28 +22,9 @@
     <string name="saved">Saved</string>
     <string name="err_saved">Error while saving!</string>
     <string name="shutters_address">Shutters URL</string>
-    <string name="xmas_address">Xmas URL</string>
     <string name="connect">Connect</string>
     <string name="sent">Sent</string>
-    <string name="number">Number</string>
-    <string name="name">Name</string>
     <string name="cancel">Cancel</string>
     <string name="ask_delete">Delete?</string>
     <string name="deleted">Deleted</string>
-    <string name="all_windows">All windows</string>
-    <string name="select_window">Select window</string>
-    <string name="window">Window</string>
-    <string-array name="windows_array_obsolete">
-        <item>All</item>
-        <item>Stairs</item>
-        <item>WC</item>
-        <item>Kitchen</item>
-        <item>Dining room</item>
-        <item>Terrace</item>
-        <item>Living room 1</item>
-        <item>Living room 2</item>
-        <item>Living room 3</item>
-        <item>Bedroom</item>
-        <item>Bath room</item>
-    </string-array>
 </resources>
