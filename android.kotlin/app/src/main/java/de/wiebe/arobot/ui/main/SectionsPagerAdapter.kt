@@ -8,8 +8,6 @@ import androidx.fragment.app.FragmentPagerAdapter
 
 private val TAB_TITLES = arrayOf(
     R.string.tab_windows,
-    R.string.tab_phone,
-    R.string.tab_xmas,
     R.string.tab_status
 )
 
@@ -22,9 +20,7 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
-            1 -> PhonebookFragment.newInstance(position + 1)
-            2 -> XmasFragment.newInstance(position + 1)
-            3 -> StatusFragment.newInstance(position + 1)
+            1 -> StatusFragment.newInstance(position + 1)
             else -> WindowsFragment.newInstance(position + 1)
         }
     }

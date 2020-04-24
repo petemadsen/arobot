@@ -12,10 +12,6 @@ class App : Application() {
         suspend fun requestShutters(url: String): String = withContext(Dispatchers.IO) {
             URL("${prefs!!.shuttersAddress}$url").readText()
         }
-
-        suspend fun requestXmas(url: String): String = withContext(Dispatchers.IO) {
-            URL("${prefs!!.xmasAddress}$url").readText()
-        }
     }
 
     override fun onCreate() {

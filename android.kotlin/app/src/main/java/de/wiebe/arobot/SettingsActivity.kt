@@ -25,7 +25,6 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
 
         val prefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         onSharedPreferenceChanged(prefs, SHUTTERS_ADDRESS)
-        onSharedPreferenceChanged(prefs, XMAS_ADDRESS)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

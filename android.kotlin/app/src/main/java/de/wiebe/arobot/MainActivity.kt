@@ -52,13 +52,6 @@ class MainActivity : AppCompatActivity() {
         })
 
         setSupportActionBar(findViewById(R.id.my_toolbar))
-
-        if (checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-            println("--NEED CONTACTS")
-            requestPermissions(arrayOf(Manifest.permission.READ_CONTACTS), PERMISSIONS_REQUEST_READ_CONTACTS)
-        } else {
-            readContacts()
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -78,53 +71,5 @@ class MainActivity : AppCompatActivity() {
         }
 
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        if (requestCode == PERMISSIONS_REQUEST_READ_CONTACTS) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                readContacts()
-            }
-        }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-    }
-
-    private fun readContacts() {
-        val contacts = mutableMapOf<String, String>()
-
-        val c = contentResolver.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null)
-        println("--c $c")
-        c?.let {
-            println("--c #${c.count}")
-            while (c.count != 0 && c.moveToNext()) {
-                val id = c.getString(c.getColumnIndex(ContactsContract.Contacts._ID))
-                val name = c.getString(c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
-                val hasNumber = c.getString(c.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)).toInt()
-
-                if (hasNumber == 1) {
-                    val cp = contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
-                        ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?", arrayOf(id), null)
-                    cp?.let {
-                        while (cp.count != 0 && cp.moveToNext()) {
-                            val number = cp.getString(cp.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
-                            val n = number.filter { it >= '0' && it <= '9' }
-                            println("--CONTACT: $name -> $number ($n)")
-                            contacts[n] = name
-                        }
-                        cp.close()
-                    }
-                }
-            }
-            c.close()
-        }
-
-        for ((number, name) in contacts) {
-            println("--CON/$number/$name")
-        }
-        pageViewModel.phoneContacts.value = contacts
     }
 }
