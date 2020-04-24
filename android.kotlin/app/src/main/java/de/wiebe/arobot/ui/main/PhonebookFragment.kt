@@ -1,4 +1,4 @@
-package de.wiebe.shutters.ui.main
+package de.wiebe.arobot.ui.main
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import de.wiebe.shutters.R
+import de.wiebe.arobot.R
 import kotlinx.android.synthetic.main.fragment_phonebook.*
 
 

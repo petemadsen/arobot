@@ -1,4 +1,4 @@
-package de.wiebe.shutters.ui.main
+package de.wiebe.arobot.ui.main
 
 import org.json.JSONObject
 

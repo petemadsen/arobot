@@ -1,4 +1,4 @@
-package de.wiebe.shutters
+package de.wiebe.arobot
 
 import android.content.SharedPreferences
 import android.os.Bundle

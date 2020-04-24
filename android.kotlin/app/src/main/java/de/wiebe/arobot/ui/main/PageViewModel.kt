@@ -1,9 +1,9 @@
-package de.wiebe.shutters.ui.main
+package de.wiebe.arobot.ui.main
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import de.wiebe.shutters.App
+import de.wiebe.arobot.App
 import kotlinx.coroutines.launch
 import org.json.JSONArray
 

@@ -1,9 +1,9 @@
-package de.wiebe.shutters.ui.main
+package de.wiebe.arobot.ui.main
 
 import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import de.wiebe.shutters.R
+import de.wiebe.arobot.R
 import androidx.fragment.app.FragmentPagerAdapter
 
 private val TAB_TITLES = arrayOf(

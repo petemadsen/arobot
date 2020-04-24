@@ -1,4 +1,4 @@
-package de.wiebe.shutters
+package de.wiebe.arobot
 
 import android.Manifest
 import android.content.Intent
@@ -14,8 +14,8 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
-import de.wiebe.shutters.ui.main.PageViewModel
-import de.wiebe.shutters.ui.main.SectionsPagerAdapter
+import de.wiebe.arobot.ui.main.PageViewModel
+import de.wiebe.arobot.ui.main.SectionsPagerAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {

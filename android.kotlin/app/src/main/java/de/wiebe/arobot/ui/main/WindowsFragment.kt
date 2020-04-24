@@ -1,4 +1,4 @@
-package de.wiebe.shutters.ui.main
+package de.wiebe.arobot.ui.main
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
-import de.wiebe.shutters.App
-import de.wiebe.shutters.R
+import de.wiebe.arobot.App
+import de.wiebe.arobot.R
 import kotlinx.android.synthetic.main.fragment_windows.*
 import kotlinx.android.synthetic.main.fragment_windows.view.*
 import kotlinx.coroutines.launch

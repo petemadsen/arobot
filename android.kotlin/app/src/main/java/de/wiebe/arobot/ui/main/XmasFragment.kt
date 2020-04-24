@@ -1,18 +1,16 @@
-package de.wiebe.shutters.ui.main
+package de.wiebe.arobot.ui.main
 
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.RadioButton
-import android.widget.RadioGroup
 import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import de.wiebe.shutters.R
+import de.wiebe.arobot.R
 import kotlinx.android.synthetic.main.fragment_xmas.*
 
 

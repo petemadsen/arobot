@@ -1,9 +1,9 @@
-package de.wiebe.shutters.ui.main
+package de.wiebe.arobot.ui.main
 
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import de.wiebe.shutters.R
+import de.wiebe.arobot.R
 import kotlinx.android.synthetic.main.contact_row_item.view.*
 
 data class Contact(val number: String, val name: String, val phoneName: String)
