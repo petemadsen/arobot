@@ -10,6 +10,7 @@
 #include "system/my_settings.h"
 #include "system/my_log.h"
 #include "system/ota.h"
+#include "system/my_i2c.h"
 
 #include "my_http.h"
 
@@ -168,24 +169,16 @@ esp_err_t action_handler(httpd_req_t* req)
 		if (httpd_req_get_url_query_str(req, key, buf_len) == ESP_OK)
 		{
 			printf("--%s\n", key);
-#if 0
-			int32_t val;
-			ret = settings_get_int32(STORAGE_APP, key, &val, false);
-			if (ret == ESP_OK)
+			uint8_t addr = 8;
+			uint8_t data[1] = { 0 };
+			for (size_t i=0; i<strlen(key); ++i)
 			{
-				reply_len = 20;
-				reply = malloc(reply_len);
-				reply_len = snprintf(reply, reply_len, "%d", val);
-				ret = ESP_OK;
+				data[0] = key[i];
+				i2c_master_write_slave(addr, data, 1);
+				printf("--write-i2c[%d]: %d\n", addr, key[i]);
 			}
-
-			if (!reply)
-			{
-				reply = strdup(RET_ERR);
-				ret = settings_get_str(STORAGE_APP, key, &reply, false);
-				reply_len = strlen(reply);
-			}
-#endif
+			data[0] = '\n';
+			i2c_master_write_slave(addr, data, 1);
 		}
 		free(key);
 	}

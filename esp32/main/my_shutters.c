@@ -16,6 +16,7 @@
 #include "system/ota.h"
 #include "system/my_settings.h"
 #include "system/wifi.h"
+#include "system/my_i2c.h"
 
 
 static const char* MY_TAG = PROJECT_TAG("shutters");
@@ -84,6 +85,25 @@ void shutters_task(void* pvParameters)
 	char* cmd_url = strdup(DEFAULT_CMD_URL);
 
 	bool with_wifi = false;
+
+#if 0
+	uint8_t data[1] = { 0 };
+	uint8_t addr = 8;
+	for (;;)
+	{
+		vTaskDelay(1000 / portTICK_PERIOD_MS);
+
+		data[0] += 1;
+		i2c_master_write_slave(addr, data, 1);
+		printf("--write-i2c[%d]: %d\n", addr, data[0]);
+	}
+#endif
+	for (;;)
+	{
+		xEventGroupWaitBits(wifi_event_group, WIFI_CONNECTED, false, true,
+				portMAX_DELAY);
+		vTaskDelay(1000 / portTICK_PERIOD_MS);
+	}
 
 	for (;;)
 	{

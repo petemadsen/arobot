@@ -30,6 +30,10 @@ void i2c_recv(int num_bytes)
 void i2c_loop()
 {
 	for (uint8_t i = 0; i < i2c_buffer_len; ++i)
-    control_run_command(i2c_buffer[i], Serial);
+	{
+//		Serial.println((int)i2c_buffer[i]);
+		control_run_command(i2c_buffer[i], Serial);
+	}
+
 	i2c_buffer_len = 0; 
 }
