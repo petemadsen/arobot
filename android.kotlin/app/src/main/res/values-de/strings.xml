@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">aRobot</string>
-    <string name="tab_windows">Fenster</string>
+    <string name="tab_actions">Aktionen</string>
     <string name="tab_status">Status</string>
     <string name="btn_left">Links</string>
     <string name="btn_right">Rechts</string>
@@ -17,14 +17,11 @@
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
     <string name="settings">Einstellungen</string>
-    <string name="pls_select">Bitte wählen...</string>
-    <string name="save">Speichern</string>
-    <string name="saved">Gespeichert</string>
-    <string name="err_saved">Fehler bei Speichern!</string>
-    <string name="shutters_address">Shutters URL</string>
+    <string name="arobot_address">aRobot URL</string>
     <string name="connect">Verbinden</string>
     <string name="sent">Gesendet</string>
     <string name="cancel">Abbrechen</string>
-    <string name="ask_delete">Löschen?</string>
-    <string name="deleted">Gelöscht</string>
+    <string name="head">Kopf</string>
+    <string name="magnet">Magnet</string>
+    <string name="body">Körper</string>
 </resources>

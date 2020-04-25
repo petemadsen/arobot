@@ -3,5 +3,5 @@
     <EditTextPreference
         app:dialogTitle="@string/lbl_address"
         app:key="shutters_address"
-        app:title="@string/shutters_address" />
+        app:title="@string/arobot_address" />
 </PreferenceScreen>

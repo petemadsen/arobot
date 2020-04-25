@@ -7,7 +7,7 @@ import de.wiebe.arobot.R
 import androidx.fragment.app.FragmentPagerAdapter
 
 private val TAB_TITLES = arrayOf(
-    R.string.tab_windows,
+    R.string.tab_actions,
     R.string.tab_status
 )
 

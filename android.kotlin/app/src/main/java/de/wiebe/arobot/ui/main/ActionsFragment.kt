@@ -10,8 +10,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import de.wiebe.arobot.App
 import de.wiebe.arobot.R
-import kotlinx.android.synthetic.main.fragment_windows.*
-import kotlinx.android.synthetic.main.fragment_windows.view.*
+import kotlinx.android.synthetic.main.fragment_actions.*
+import kotlinx.android.synthetic.main.fragment_actions.view.*
 import kotlinx.coroutines.launch
 
 
@@ -29,12 +29,23 @@ class ActionsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.fragment_windows, container, false)
+        val root = inflater.inflate(R.layout.fragment_actions, container, false)
 
-        root.btn_left.setOnClickListener { sendAction("qqq") }
-        root.btn_right.setOnClickListener { sendAction("aaa") }
-        root.btn_up.setOnClickListener { sendAction("www") }
-        root.btn_down.setOnClickListener { sendAction("sss") }
+        root.btn_body_left.setOnClickListener { sendAction("qqq") }
+        root.btn_body_right.setOnClickListener { sendAction("aaa") }
+
+        root.btn_body_up.setOnClickListener { sendAction("www") }
+        root.btn_body_down.setOnClickListener { sendAction("sss") }
+
+        root.btn_head_up.setOnClickListener { sendAction("eee") }
+        root.btn_head_down.setOnClickListener { sendAction("ddd") }
+
+        root.btn_head_left.setOnClickListener { sendAction("rrr") }
+        root.btn_head_right.setOnClickListener { sendAction("fff") }
+
+        root.btn_head_open.setOnClickListener { sendAction("ttt") }
+        root.btn_head_close.setOnClickListener { sendAction("ggg") }
+
         root.btn_on.setOnClickListener { sendAction("zzz") }
         root.btn_off.setOnClickListener { sendAction("hhh") }
 
@@ -46,10 +57,18 @@ class ActionsFragment : Fragment() {
 
         pageViewModel.connected.observe(viewLifecycleOwner, Observer<Boolean> {connected ->
             lblConnected.text = if(connected) getString(R.string.connected) else getString(R.string.no_connection)
-            btn_down.isEnabled = connected;
-            btn_up.isEnabled = connected;
-            btn_left.isEnabled = connected;
-            btn_right.isEnabled = connected;
+            btn_body_left.isEnabled = connected;
+            btn_body_right.isEnabled = connected;
+            btn_body_up.isEnabled = connected;
+            btn_body_down.isEnabled = connected;
+
+            btn_head_left.isEnabled = connected;
+            btn_head_right.isEnabled = connected;
+            btn_head_up.isEnabled = connected;
+            btn_head_down.isEnabled = connected;
+            btn_head_open.isEnabled = connected;
+            btn_head_close.isEnabled = connected;
+
             btn_on.isEnabled = connected;
             btn_off.isEnabled = connected;
         })

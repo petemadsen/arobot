@@ -28,8 +28,15 @@
             android:layout_height="wrap_content"
             android:columnCount="2">
 
+            <TextView
+                android:id="@+id/lbl_body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_columnSpan="2"
+                android:text="@string/body" />
+
             <Button
-                android:id="@+id/btn_left"
+                android:id="@+id/btn_body_left"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="fill_horizontal"
@@ -38,7 +45,7 @@
                 android:text="@string/btn_left" />
 
             <Button
-                android:id="@+id/btn_right"
+                android:id="@+id/btn_body_right"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="fill_horizontal"
@@ -47,19 +54,76 @@
                 android:text="@string/btn_right" />
 
             <Button
-                android:id="@+id/btn_up"
+                android:id="@+id/btn_body_up"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="fill_horizontal"
                 android:enabled="false"
                 android:text="@string/btn_up" />
             <Button
-                android:id="@+id/btn_down"
+                android:id="@+id/btn_body_down"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="fill_horizontal"
                 android:enabled="false"
                 android:text="@string/btn_down" />
+
+            <TextView
+                android:id="@+id/lbl_head"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_columnSpan="2"
+                android:text="@string/head" />
+
+            <Button
+                android:id="@+id/btn_head_up"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill_horizontal"
+                android:enabled="false"
+                android:text="@string/btn_up" />
+            <Button
+                android:id="@+id/btn_head_down"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill_horizontal"
+                android:enabled="false"
+                android:text="@string/btn_down" />
+            <Button
+                android:id="@+id/btn_head_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill_horizontal"
+                android:enabled="false"
+                android:text="@string/btn_left" />
+            <Button
+                android:id="@+id/btn_head_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill_horizontal"
+                android:enabled="false"
+                android:text="@string/btn_right" />
+            <Button
+                android:id="@+id/btn_head_open"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill_horizontal"
+                android:enabled="false"
+                android:text="@string/btn_open" />
+            <Button
+                android:id="@+id/btn_head_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill_horizontal"
+                android:enabled="false"
+                android:text="@string/btn_close" />
+
+            <TextView
+                android:id="@+id/lbl_magnet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_columnSpan="2"
+                android:text="@string/magnet" />
 
             <Button
                 android:id="@+id/btn_on"
@@ -76,6 +140,8 @@
                 android:enabled="false"
                 android:text="@string/btn_off" />
         </GridLayout>
+
+
 
         <TextView
             android:id="@+id/lblSelection"
