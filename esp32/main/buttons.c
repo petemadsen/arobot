@@ -10,8 +10,6 @@
 
 #include "sdkconfig.h"
 
-#include "my_lights.h"
-#include "tone.h"
 #include "common.h"
 
 
@@ -47,10 +45,8 @@ static void gpio_task(void* arg)
 				switch (iopin)
 				{
 				case PROJECT_BELL_BTN_PIN:
-					tone_bell();
 					break;
 				case PROJECT_LIGHT_BTN_PIN:
-					lamp_toggle();
 					break;
 				}
 			}

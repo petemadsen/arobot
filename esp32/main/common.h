@@ -12,7 +12,7 @@
 #define GEEKCREIT_DEVKIT_V1		2	// has one led: 2
 
 
-#define PROJECT_NAME "khaus"
+#define PROJECT_NAME "aRobot"
 #define PROJECT_VERSION "2019-12-28/0"
 #define PROJECT_BOARD GEEKCREIT_DEVKIT_V1
 #define PROJECT_TAG(x) PROJECT_NAME "/" x

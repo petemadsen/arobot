@@ -12,22 +12,13 @@
 #include "system/ota.h"
 
 #include "my_http.h"
-#include "tone.h"
 #include "my_sensors.h"
-#include "my_lights.h"
-#include "sound/read_wav.h"
-#include "my_sleep.h"
 
 
 static const char* MY_TAG = PROJECT_TAG("http");
 
 
 static esp_err_t status_handler(httpd_req_t* req);
-static esp_err_t light_handler(httpd_req_t* req);
-static esp_err_t bell_handler(httpd_req_t* req);
-static esp_err_t bell_upload_handler(httpd_req_t* req);
-static esp_err_t play_handler(httpd_req_t* req);
-static esp_err_t volume_handler(httpd_req_t* req);
 static esp_err_t system_handler(httpd_req_t* req);
 static esp_err_t settings_get_handler(httpd_req_t* req);
 static esp_err_t settings_set_handler(httpd_req_t* req);
@@ -43,31 +34,6 @@ static httpd_uri_t basic_handlers[] = {
 		.uri	= "/status",
 		.method	= HTTP_GET,
 		.handler= status_handler,
-	},
-	{
-		.uri	= "/light",
-		.method	= HTTP_GET,
-		.handler= light_handler,
-	},
-	{
-		.uri	= "/bell",
-		.method	= HTTP_GET,
-		.handler= bell_handler,
-	},
-	{
-		.uri	= "/bell",
-		.method	= HTTP_POST,
-		.handler= bell_upload_handler,
-	},
-	{
-		.uri	= "/play",
-		.method	= HTTP_GET,
-		.handler= play_handler,
-	},
-	{
-		.uri	= "/volume",
-		.method	= HTTP_GET,
-		.handler= volume_handler,
 	},
 	{
 		.uri	= "/system",
@@ -171,11 +137,7 @@ esp_err_t status_handler(httpd_req_t* req)
 	int buflen = snprintf(buf, bufsize,
 						  "version %s\n"
 						  " ident %s\n"
-						  " light %d\n"
-						  " light_on_secs %lld\n"
 						  " free-ram %u\n"
-						  " sleep_nightmode %d\n"
-						  " sleep_watch_wifi %d\n"
 						  " boots %d\n"
 						  " uptime %lld\n"
 						  " time %02d:%02d\n"
@@ -185,11 +147,7 @@ esp_err_t status_handler(httpd_req_t* req)
 						  " out_humidity %.2f\n",
 						  PROJECT_VERSION,
 						  PROJECT_NAME,
-						  lamp_status(),
-						  lamp_on_secs(),
 						  esp_get_free_heap_size(),
-						  my_sleep_nightmode(),
-						  my_sleep_watch_wifi(),
 						  settings_boot_counter(),
 						  uptime,
 						  timeinfo.tm_hour, timeinfo.tm_min,
@@ -332,226 +290,6 @@ esp_err_t settings_set_handler(httpd_req_t* req)
 	else
 		httpd_resp_sendstr(req, RET_OK);
 
-	return ret;
-}
-
-
-esp_err_t light_handler(httpd_req_t* req)
-{
-	const char* ret = RET_ERR;
-
-	int onoff;
-	if (get_int(req, &onoff) && (onoff==0 || onoff==1))
-	{
-		if (onoff == 1)
-			lamp_on();
-		else
-			lamp_off();
-		ret = RET_OK;
-	}
-	else
-	{
-		char* buf = malloc(20);
-		int buf_len = sprintf(buf, "%d", lamp_status());
-		httpd_resp_send(req, buf, buf_len);
-		free(buf);
-		return ESP_OK;
-	}
-
-	httpd_resp_sendstr(req, ret);
-	return ESP_OK;
-}
-
-
-esp_err_t bell_handler(httpd_req_t* req)
-{
-	const char* ret = NULL;
-	int num;
-
-	if (get_int(req, &num) && num >= 0)
-	{
-		ret = tone_set(num) ? RET_OK : RET_ERR;
-	}
-	else if (is_string(req, "list"))
-	{
-		size_t buf_len = BELL_MAX;
-		char* buf = malloc(buf_len);
-		for (int i=0; i<BELL_MAX; ++i)
-			buf[i] = tone_has_bell(i) ? '1': '0';
-		httpd_resp_send(req, buf, buf_len);
-		free(buf);
-	}
-	else if (httpd_req_get_url_query_len(req) == 0)
-	{
-		char* buf = malloc(20);
-		int buf_len = sprintf(buf, "%d", tone_get());
-		httpd_resp_send(req, buf, buf_len);
-		free(buf);
-		return ESP_OK;
-	}
-	else
-	{
-		ret = RET_ERR_INVALID;
-	}
-
-	if (ret)
-		httpd_resp_sendstr(req, ret);
-
-	return ESP_OK;
-}
-
-
-esp_err_t bell_upload_handler(httpd_req_t* req)
-{
-	int ret = 0;
-	size_t len = req->content_len;
-	ESP_LOGE(MY_TAG, "bell-upload-handler: %d", (int)len);
-
-	int name = -1;
-	if (!get_int(req, &name) || name >= BELL_MAX)
-	{
-		httpd_resp_sendstr(req, RET_ERR);
-		return ESP_OK;
-	}
-	ESP_LOGE(MY_TAG, "Name: %d", name);
-
-	// -- receive file into a string
-	char* buf = malloc(len);
-	if (!buf)
-	{
-		httpd_resp_sendstr(req, RET_ERR_SIZE);
-		return ESP_OK;
-	}
-
-	char* p = buf;
-	while (len > 0)
-	{
-		int rcv = httpd_req_recv(req, p, len);
-		if (rcv <= 0)
-		{
-			if (rcv == HTTPD_SOCK_ERR_TIMEOUT)
-				continue;
-
-			free(buf);
-			httpd_resp_sendstr(req, RET_ERR);
-			return ESP_FAIL;
-		}
-
-//		fwrite(buf, sizeof(char), ret, file);
-		len -= rcv;
-		p += rcv;
-	}
-
-	// -- check file
-	len = req->content_len;
-	ret = read_wav_check(buf, len);
-	if (ret == 0)
-	{
-		char filename[40];
-		sprintf(filename, "/spiffs/bell%d.wav", name);
-		ESP_LOGI(MY_TAG, "Writing file: %s", filename);
-		if (!save_to_file(filename, buf, len))
-			ret = 100;
-	}
-
-	// -- reply
-	ESP_LOGI(MY_TAG, "WAV file: %d", ret);
-
-	int buf_len = sprintf(buf, "%d", ret);
-	httpd_resp_send(req, buf, buf_len);
-
-	free(buf);
-	return ESP_OK;
-}
-
-
-esp_err_t play_handler(httpd_req_t* req)
-{
-	const char* ret = RET_ERR;
-
-	tone_bell();
-	ret = RET_OK;
-
-#if 0
-	int track;
-	if (get_int(req, &track) && track >= 1 && track <= 9)
-	{
-		dfplayer_play(track);
-		ret = RET_OK;
-	}
-#endif
-
-	httpd_resp_sendstr(req, ret);
-	return ESP_OK;
-}
-
-
-esp_err_t volume_handler(httpd_req_t* req)
-{
-	int volume;
-	if (get_int(req, &volume) && volume >= 0 && volume <= 100)
-	{
-		tone_set_volume_p(volume);
-		httpd_resp_sendstr(req, RET_OK);
-		return ESP_OK;
-	}
-
-	char* buf = malloc(20);
-	int buf_len = sprintf(buf, "%d", tone_get_volume_p());
-	httpd_resp_send(req, buf, buf_len);
-	free(buf);
-	return ESP_OK;
-}
-
-
-bool save_to_file(const char* filename, const char* buf, size_t buf_len)
-{
-	bool ret = false;
-
-	// -- write file to disc
-	esp_vfs_spiffs_conf_t conf = {
-			.base_path = "/spiffs",
-			.partition_label = NULL,
-			.max_files = 2,
-			.format_if_mount_failed = false
-	};
-	esp_err_t err = esp_vfs_spiffs_register(&conf);
-	if (err != ESP_OK)
-	{
-		if (err == ESP_FAIL)
-			ESP_LOGE(MY_TAG, "Failed to mount or format filesystem");
-		else if (err == ESP_ERR_NOT_FOUND)
-			ESP_LOGE(MY_TAG, "Failed to find SPIFFS partition");
-		else
-			ESP_LOGE(MY_TAG, "Failed to initialize SPIFFS (%s)", esp_err_to_name(ret));
-
-		return false;
-	}
-
-	// -- info
-	size_t total = 0, used = 0;
-	ret = esp_spiffs_info(NULL, &total, &used);
-	if (ret != ESP_OK)
-		ESP_LOGE(MY_TAG, "Failed to get SPIFFS partition information (%s)", esp_err_to_name(ret));
-	else
-		ESP_LOGI(MY_TAG, "Partition size: total: %d, used: %d", total, used);
-
-	// -- write
-	FILE* file = fopen(filename, "w");
-	if (file)
-	{
-		unsigned long len = fwrite(buf, sizeof(char), buf_len, file);
-		if (len == buf_len)
-			ret = true;
-		fclose(file);
-	}
-	else
-	{
-		ESP_LOGE(MY_TAG, "Could not open file for writing.");
-		ret = false;
-	}
-
-	esp_vfs_spiffs_unregister(NULL);
 	return ret;
 }
 

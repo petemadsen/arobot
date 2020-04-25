@@ -16,9 +16,7 @@
 #include "system/ota.h"
 #include "system/my_settings.h"
 #include "system/wifi.h"
-#include "my_sleep.h"
 #include "my_sensors.h"
-#include "my_lights.h"
 
 
 static const char* MY_TAG = PROJECT_TAG("shutters");
@@ -151,10 +149,6 @@ void shutters_task(void* pvParameters)
 					with_wifi = true;
 				if (has_option(m_rcv_buffer, "nowifi"))
 					with_wifi = false;
-				if (has_option(m_rcv_buffer, "sleep"))
-					my_sleep_enable_nightmode(true);
-				if (has_option(m_rcv_buffer, "nosleep"))
-					my_sleep_enable_nightmode(false);
 			}
 		}
 		else
@@ -169,19 +163,13 @@ void shutters_task(void* pvParameters)
 									 "&board_voltage=%.2f"
 									 "&out_temp=%.2f"
 									 "&out_humidity=%.2f"
-									 "&sleep_nightmode=%d"
-									 "&sleep_watch_wifi=%d"
 									 "&boots=%d"
-									 "&light=%d"
 									 "&wifi=%d",
 									 my_sensors_board_temp(),
 									 my_sensors_board_voltage(),
 									 my_sensors_out_temp(),
 									 my_sensors_out_humidity(),
-									 my_sleep_nightmode(),
-									 my_sleep_watch_wifi(),
 									 settings_boot_counter(),
-									 lamp_status(),
 									 with_wifi ? 1 : 0);
 
 		esp_http_client_set_method(client, HTTP_METHOD_POST);
@@ -198,29 +186,6 @@ void shutters_task(void* pvParameters)
 
 		// -- cleanup
 		esp_http_client_cleanup(client);
-
-#if 1
-		my_sleep_enable_watch_wifi(with_wifi);
-		if (!with_wifi)
-		{
-			ESP_LOGW(MY_TAG, "Turning off WiFi.");
-			if (lamp_status() == 0)
-			{
-				wifi_stop(); // to save energy
-
-				// wait 1h
-//				vTaskDelay(60 * 1000 / portTICK_PERIOD_MS);
-				vTaskDelay(3600 * 1000 / portTICK_PERIOD_MS);
-
-				// wait for the lamp to turn off
-				while (lamp_status() != 0)
-					vTaskDelay(60 * 1000 / portTICK_PERIOD_MS);
-
-				if (lamp_status() == 0)
-					esp_restart();
-			}
-		}
-#endif
 
 		// -- wait 3600 secs = 1h
 		vTaskDelay(3600 * 1000 / portTICK_PERIOD_MS);
