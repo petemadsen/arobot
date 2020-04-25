@@ -11,7 +11,6 @@
 
 #include "buttons.h"
 #include "my_shutters.h"
-#include "my_sensors.h"
 #include "common.h"
 
 
@@ -27,8 +26,6 @@ void app_main()
 	wifi_init(true);
 
 	i2c_master_init();
-
-	xTaskCreate(my_sensors_task, "sensors_task", 4096, NULL, 5, NULL);
 
 	xTaskCreate(shutters_task, "shutters_task", 4096, NULL, 5, NULL);
 }

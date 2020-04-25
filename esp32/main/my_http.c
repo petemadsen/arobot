@@ -12,7 +12,6 @@
 #include "system/ota.h"
 
 #include "my_http.h"
-#include "my_sensors.h"
 
 
 static const char* MY_TAG = PROJECT_TAG("http");
@@ -23,6 +22,7 @@ static esp_err_t system_handler(httpd_req_t* req);
 static esp_err_t settings_get_handler(httpd_req_t* req);
 static esp_err_t settings_set_handler(httpd_req_t* req);
 static esp_err_t log_handler(httpd_req_t* req);
+static esp_err_t action_handler(httpd_req_t* req);
 
 static const char* RET_OK = "OK";
 static const char* RET_ERR = "ERR";
@@ -34,6 +34,11 @@ static httpd_uri_t basic_handlers[] = {
 		.uri	= "/status",
 		.method	= HTTP_GET,
 		.handler= status_handler,
+	},
+	{
+		.uri	= "/action",
+		.method	= HTTP_GET,
+		.handler= action_handler,
 	},
 	{
 		.uri	= "/system",
@@ -140,24 +145,52 @@ esp_err_t status_handler(httpd_req_t* req)
 						  " free-ram %u\n"
 						  " boots %d\n"
 						  " uptime %lld\n"
-						  " time %02d:%02d\n"
-						  " board_temp %.2f\n"
-						  " board_voltage %.2f\n"
-						  " out_temp %.2f\n"
-						  " out_humidity %.2f\n",
+						  " time %02d:%02d\n",
 						  PROJECT_VERSION,
 						  PROJECT_NAME,
 						  esp_get_free_heap_size(),
 						  settings_boot_counter(),
 						  uptime,
-						  timeinfo.tm_hour, timeinfo.tm_min,
-						  my_sensors_board_temp(),
-						  my_sensors_board_voltage(),
-						  my_sensors_out_temp(),
-						  my_sensors_out_humidity());
+						  timeinfo.tm_hour, timeinfo.tm_min);
 	httpd_resp_send(req, buf, buflen);
 
 	free(buf);
+	return ESP_OK;
+}
+
+
+esp_err_t action_handler(httpd_req_t* req)
+{
+	size_t buf_len = httpd_req_get_url_query_len(req) + 1;
+	if (buf_len > 1)
+	{
+		char* key = malloc(buf_len);
+		if (httpd_req_get_url_query_str(req, key, buf_len) == ESP_OK)
+		{
+			printf("--%s\n", key);
+#if 0
+			int32_t val;
+			ret = settings_get_int32(STORAGE_APP, key, &val, false);
+			if (ret == ESP_OK)
+			{
+				reply_len = 20;
+				reply = malloc(reply_len);
+				reply_len = snprintf(reply, reply_len, "%d", val);
+				ret = ESP_OK;
+			}
+
+			if (!reply)
+			{
+				reply = strdup(RET_ERR);
+				ret = settings_get_str(STORAGE_APP, key, &reply, false);
+				reply_len = strlen(reply);
+			}
+#endif
+		}
+		free(key);
+	}
+
+	httpd_resp_send(req, RET_OK, strlen(RET_OK));
 	return ESP_OK;
 }
 

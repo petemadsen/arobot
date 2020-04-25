@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.fragment_windows.view.*
 import kotlinx.coroutines.launch
 
 
-class WindowsFragment : Fragment() {
+class ActionsFragment : Fragment() {
     private lateinit var pageViewModel: PageViewModel
     private var windowsList = mutableMapOf<Int, String>()
 
@@ -29,11 +29,14 @@ class WindowsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        println("--windows-fragment-create")
         val root = inflater.inflate(R.layout.fragment_windows, container, false)
 
         root.btn_left.setOnClickListener { sendAction("qqq") }
         root.btn_right.setOnClickListener { sendAction("aaa") }
+        root.btn_up.setOnClickListener { sendAction("www") }
+        root.btn_down.setOnClickListener { sendAction("sss") }
+        root.btn_on.setOnClickListener { sendAction("zzz") }
+        root.btn_off.setOnClickListener { sendAction("hhh") }
 
         return root
     }
@@ -43,10 +46,12 @@ class WindowsFragment : Fragment() {
 
         pageViewModel.connected.observe(viewLifecycleOwner, Observer<Boolean> {connected ->
             lblConnected.text = if(connected) getString(R.string.connected) else getString(R.string.no_connection)
-        })
-
-        pageViewModel.status.observe(viewLifecycleOwner, Observer<Any> {
-            lblTemperature.text = try { "${ShuttersStatus(it.toString()).local.tempOut} °C" } catch (e: Exception) { "-" }
+            btn_down.isEnabled = connected;
+            btn_up.isEnabled = connected;
+            btn_left.isEnabled = connected;
+            btn_right.isEnabled = connected;
+            btn_on.isEnabled = connected;
+            btn_off.isEnabled = connected;
         })
     }
 
@@ -78,8 +83,8 @@ class WindowsFragment : Fragment() {
          * number.
          */
         @JvmStatic
-        fun newInstance(sectionNumber: Int): WindowsFragment {
-            return WindowsFragment().apply {
+        fun newInstance(sectionNumber: Int): ActionsFragment {
+            return ActionsFragment().apply {
                 arguments = Bundle().apply {
                     putInt(ARG_SECTION_NUMBER, sectionNumber)
                 }

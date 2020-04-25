@@ -16,15 +16,14 @@
 #include "system/ota.h"
 #include "system/my_settings.h"
 #include "system/wifi.h"
-#include "my_sensors.h"
 
 
 static const char* MY_TAG = PROJECT_TAG("shutters");
 
 
-#define DEFAULT_SAVE_URL	PROJECT_SHUTTERS_ADDRESS "/khaus/save"
+#define DEFAULT_SAVE_URL	PROJECT_SHUTTERS_ADDRESS "/arobot/save"
 #define DEFAULT_TIME_URL	PROJECT_SHUTTERS_ADDRESS "/time"
-#define DEFAULT_CMD_URL		PROJECT_SHUTTERS_ADDRESS "/cmd/khaus"
+#define DEFAULT_CMD_URL		PROJECT_SHUTTERS_ADDRESS "/cmd/arobot"
 
 #define SETTING_SAVE_URL	"shutters.save"
 #define SETTING_TIME_URL	"shutters.time"
@@ -159,16 +158,8 @@ void shutters_task(void* pvParameters)
 		const size_t POST_MAXLEN = 300;
 		char* save_data = malloc(POST_MAXLEN);
 		int save_data_len = snprintf(save_data, POST_MAXLEN,
-									 "board_temp=%.2f"
-									 "&board_voltage=%.2f"
-									 "&out_temp=%.2f"
-									 "&out_humidity=%.2f"
-									 "&boots=%d"
+									 "boots=%d"
 									 "&wifi=%d",
-									 my_sensors_board_temp(),
-									 my_sensors_board_voltage(),
-									 my_sensors_out_temp(),
-									 my_sensors_out_humidity(),
 									 settings_boot_counter(),
 									 with_wifi ? 1 : 0);
 
